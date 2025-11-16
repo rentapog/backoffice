@@ -1,0 +1,36 @@
+.env
+.vscode/
+AppData/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+*.sqlite3
+*.db
+*.pkl
+*.bak
+*.swp
+*.swo
+*.tmp
+*.cache
+*.idea/
+*.iml
+node_modules/
+# System folders
+Cookies/
+Local Settings/
+My Documents/
+NetHood/
+PrintHood/
+Recent/
+SendTo/
+Start Menu/
+Templates/
+Saved Games/
+Videos/
+Music/
+Downloads/
+Documents/
+Favorites/
+Contacts/
+OneDrive/
