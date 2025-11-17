@@ -3,6 +3,10 @@ import os
 from flask import Flask, request, render_template_string
 import anthropic
 
+import zipfile
+import io
+from flask import send_file
+
 app = Flask(__name__)
 
 CLAUDE_API_KEY = os.getenv('CLAUDE_API_KEY', 'your-claude-api-key-here')
@@ -64,6 +68,50 @@ def ask_claude():
     except Exception as e:
         ai_response = f"Error: {e}"
     return render_template_string(HTML_TEMPLATE, response=ai_response)
+
+# Endpoint to download all project files as a zip
+@app.route('/download-all', methods=['GET'])
+def download_all():
+    memory_file = io.BytesIO()
+    with zipfile.ZipFile(memory_file, 'w', zipfile.ZIP_DEFLATED) as zf:
+        for foldername, subfolders, filenames in os.walk('.'):
+            # Skip virtual environments and hidden folders
+            if any(skip in foldername for skip in ['.git', '__pycache__', 'venv', '.venv', 'node_modules', '.idea', '.vscode']):
+                continue
+            for filename in filenames:
+                filepath = os.path.join(foldername, filename)
+                # Skip hidden files and pyc files
+                if filename.startswith('.') or filename.endswith('.pyc'):
+                    continue
+                zf.write(filepath, os.path.relpath(filepath, '.'))
+    memory_file.seek(0)
+    return send_file(memory_file, download_name='project.zip', as_attachment=True)
+
+# Endpoint to generate a guide or code using Claude
+@app.route('/generate', methods=['POST'])
+def generate():
+    data = request.get_json()
+    prompt = data.get('prompt', '')
+    if not prompt:
+        return {"error": "No prompt provided."}, 400
+    try:
+        response = client.beta.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=1024,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt}
+                    ]
+                }
+            ],
+            betas=["files-api-2025-04-14"],
+        )
+        ai_response = response.content[0].text if hasattr(response, 'content') and response.content else 'No response from Claude.'
+        return {"result": ai_response}
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 if __name__ == '__main__':
     import os
