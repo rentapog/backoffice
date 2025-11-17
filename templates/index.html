@@ -217,9 +217,9 @@
         <h2 id="claimDomainTitle">Claim Your Domain</h2>
         <form id="domainForm" aria-describedby="formDesc" autocomplete="on" novalidate>
             <div id="formDesc" style="margin-bottom:1em;color:#001f5b;">
-                Enter your best domain and email. We'll show you how to start earning daily—no experience needed!
+                Enter your best domain and email. <br><strong>Your username will be the first part of your domain (before the dot). For example, if you enter <span style='color:#e60000;'>yourbrand.com</span>, your username will be <span style='color:#001f5b;'>yourbrand</span>.</strong> We'll show you how to start earning daily—no experience needed!
             </div>
-                     <label for="domainInput" style="display:block;text-align:left;margin:0 auto 0.2em auto;max-width:320px;font-weight:bold;">Domain Name</label>
+            <label for="domainInput" style="display:block;text-align:left;margin:0 auto 0.2em auto;max-width:320px;font-weight:bold;">Domain Name</label>
             <input type="text" id="domainInput" name="domain" placeholder="e.g. yourbrand.com" required aria-required="true" aria-label="Domain Name" autocomplete="off" />
             <br />
             <label for="emailInput" style="display:block;text-align:left;margin:0 auto 0.2em auto;max-width:320px;font-weight:bold;">Email Address</label>
@@ -227,12 +227,9 @@
             <br />
             <button type="submit" aria-label="Claim your domain and start earning">Claim Now</button>
         </form>
-                <form id="affiliate-signup-form" style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
-                    <input type="text" name="name" placeholder="Your Name" required style="padding: 9px; border: 1px solid #bbb; border-radius: 5px; font-size: 1rem; width: 90%; max-width: 260px;">
-                    <input type="email" name="email" placeholder="Your Email" required style="padding: 9px; border: 1px solid #bbb; border-radius: 5px; font-size: 1rem; width: 90%; max-width: 260px;">
-                    <button type="submit" style="background: #0074d9; color: #fff; border: none; padding: 12px 0; width: 90%; max-width: 260px; border-radius: 5px; font-size: 1.08rem; cursor: pointer; transition: background 0.2s; margin-top: 6px;">Join the Affiliate Program</button>
-                </form>
+        <!-- Affiliate signup form removed: username will be the domain name -->
         <div id="errorMsg" role="alert" aria-live="assertive"></div>
+        <div id="affiliateLinkMsg" style="display:none;margin-top:18px;font-size:1.1em;color:#001f5b;"></div>
         <noscript>
             <div style="color:#e60000;font-weight:bold;margin-top:1em;">JavaScript is required to submit this form.</div>
         </noscript>
@@ -243,29 +240,7 @@
             <a href="/packages">View Packages</a>
         </div>
     </footer>
-        <script>
-            // Handle affiliate signup form submission with redirect
-            document.addEventListener('DOMContentLoaded', function() {
-                var form = document.getElementById('affiliate-signup-form');
-                if (form) {
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        var formData = new FormData(form);
-                        var data = new URLSearchParams();
-                        for (const pair of formData) {
-                            data.append(pair[0], pair[1]);
-                        }
-                        fetch('https://hooks.zapier.com/hooks/catch/25004565/usjl8zn/', {
-                            method: 'POST',
-                            body: data,
-                        }).finally(function() {
-                            // Redirect to placeholder page after submission
-                            window.location.href = 'https://example.com/thank-you';
-                        });
-                    });
-                }
-            });
-        </script>
+        <!-- Affiliate signup form and script removed -->
         <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Show username of the person the user is signing up under
@@ -293,6 +268,9 @@
                 e.preventDefault();
                 errorMsg.style.display = 'none';
                 errorMsg.textContent = '';
+                var affiliateLinkMsg = document.getElementById('affiliateLinkMsg');
+                affiliateLinkMsg.style.display = 'none';
+                affiliateLinkMsg.textContent = '';
 
                 var domain = domainInput.value.trim();
                 var email = emailInput.value.trim();
@@ -309,10 +287,14 @@
                     return;
                 }
 
+                // Extract username from domain (before the first dot)
+                var username = domain.split('.')[0];
+                var affiliateLink = 'https://rizzosai.com/' + username;
+
                 fetch('/api/claim-domain', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ domain: domain, email: email })
+                    body: JSON.stringify({ domain: domain, email: email, username: username })
                 })
                 .then(function (response) {
                     return response.json();
@@ -322,10 +304,12 @@
                         errorMsg.style.color = data.available ? '#4caf50' : '#ff9800';
                         errorMsg.textContent = data.message;
                         errorMsg.style.display = 'block';
+                        affiliateLinkMsg.innerHTML = 'Your affiliate link: <a href="' + affiliateLink + '" target="_blank" style="color:#e60000;font-weight:bold;">' + affiliateLink + '</a>';
+                        affiliateLinkMsg.style.display = 'block';
                         if (data.available) {
                             setTimeout(function() {
                                 window.location.href = '/packages';
-                            }, 2000);
+                            }, 4000);
                         }
                     } else {
                         throw new Error(data.error || 'Submission failed. Please try again later.');
