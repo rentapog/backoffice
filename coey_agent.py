@@ -7,6 +7,9 @@ import zipfile
 import io
 from flask import send_file
 import json
+
+app = Flask(__name__)
+
 # Endpoint to get dashboard structure (menus/tabs)
 @app.route('/dashboard-structure', methods=['GET'])
 def get_dashboard_structure():
@@ -29,8 +32,6 @@ def update_dashboard_structure():
         return {"success": True}
     except Exception as e:
         return {"error": str(e)}, 500
-
-app = Flask(__name__)
 
 CLAUDE_API_KEY = os.getenv('CLAUDE_API_KEY', 'your-claude-api-key-here')
 client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
