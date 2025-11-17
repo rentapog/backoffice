@@ -1,6 +1,6 @@
 
 import os
-from flask import Flask, request, render_template_string, redirect, url_for, flash
+from flask import Flask, request, render_template_string, redirect, url_for, flash, send_from_directory
 import anthropic
 
 import zipfile
@@ -80,9 +80,11 @@ HTML_TEMPLATE = '''
 </html>
 '''
 
+
+# Serve landing.html as a static page at root
 @app.route('/', methods=['GET'])
-def index():
-    return render_template_string(HTML_TEMPLATE)
+def landing():
+    return send_from_directory('templates', 'landing.html')
 
 # File upload endpoint
 @app.route('/upload', methods=['POST'])
