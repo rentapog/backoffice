@@ -1,12 +1,15 @@
 
 import os
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, redirect, url_for, flash
 import anthropic
 
 import zipfile
 import io
 from flask import send_file
 import json
+
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
 
@@ -46,6 +49,7 @@ HTML_TEMPLATE = '''
         body { font-family: Arial, sans-serif; margin: 40px; }
         textarea { width: 100%; height: 100px; }
         .response { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px; }
+        .upload-section { margin-top: 30px; padding: 20px; background: #e9e9e9; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -61,6 +65,17 @@ HTML_TEMPLATE = '''
         {{ response }}
     </div>
     {% endif %}
+
+    <div class="upload-section">
+        <h2>Upload Files or Zipped Folders</h2>
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="file" multiple required>
+            <button type="submit">Upload</button>
+        </form>
+        {% if upload_message %}
+        <div class="response">{{ upload_message }}</div>
+        {% endif %}
+    </div>
 </body>
 </html>
 '''
@@ -68,6 +83,29 @@ HTML_TEMPLATE = '''
 @app.route('/', methods=['GET'])
 def index():
     return render_template_string(HTML_TEMPLATE)
+
+# File upload endpoint
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return render_template_string(HTML_TEMPLATE, upload_message="No file part in the request.")
+    files = request.files.getlist('file')
+    saved_files = []
+    for file in files:
+        if file.filename == '':
+            continue
+        save_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(save_path)
+        # If it's a zip file, extract it
+        if file.filename.lower().endswith('.zip'):
+            with zipfile.ZipFile(save_path, 'r') as zip_ref:
+                zip_ref.extractall(UPLOAD_FOLDER)
+            os.remove(save_path)
+            saved_files.append(f"Extracted {file.filename}")
+        else:
+            saved_files.append(f"Saved {file.filename}")
+    msg = "<br>".join(saved_files) if saved_files else "No files uploaded."
+    return render_template_string(HTML_TEMPLATE, upload_message=msg)
 
 @app.route('/ask', methods=['POST'])
 def ask_claude():
