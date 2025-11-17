@@ -82,10 +82,16 @@ HTML_TEMPLATE = '''
 
 
 
+
 # Serve index.html as the main site
 @app.route('/', methods=['GET'])
 def main_site():
     return send_from_directory('templates', 'index.html')
+
+# Serve signup.html at /signup
+@app.route('/signup', methods=['GET'])
+def signup_page():
+    return send_from_directory('templates', 'signup.html')
 
 # Serve landing.html at /landing
 @app.route('/landing', methods=['GET'])
