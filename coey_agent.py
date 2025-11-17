@@ -81,9 +81,15 @@ HTML_TEMPLATE = '''
 '''
 
 
-# Serve landing.html as a static page at root
+
+# Serve index.html as the main site
 @app.route('/', methods=['GET'])
-def landing():
+def main_site():
+    return send_from_directory('templates', 'index.html')
+
+# Serve landing.html at /landing
+@app.route('/landing', methods=['GET'])
+def landing_page():
     return send_from_directory('templates', 'landing.html')
 
 # File upload endpoint
