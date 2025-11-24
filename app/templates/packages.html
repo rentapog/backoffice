@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentariz Packages & Donation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+            padding: 40px 32px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0033a0;
+            margin-bottom: 32px;
+            font-size: 2.5em;
+        }
+
+        .packages {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .package {
+            background: #f4f8fb;
+            border-radius: 12px;
+            border: 2px solid #0033a0;
+            padding: 32px 24px;
+            width: 320px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+
+        .package:hover {
+            box-shadow: 0 6px 24px rgba(0, 51, 160, 0.10);
+        }
+
+        .price {
+            font-size: 2.2em;
+            color: #e60000;
+            font-weight: bold;
+            margin: 16px 0 8px 0;
+        }
+
+        .desc {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 18px;
+        }
+
+        .features {
+            text-align: left;
+            margin: 18px 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .features li {
+            margin-bottom: 10px;
+            padding-left: 1.2em;
+            position: relative;
+        }
+
+        .features li:before {
+            content: '✔';
+            color: #0033a0;
+            position: absolute;
+            left: 0;
+        }
+
+        .buy-btn {
+            background: #0033a0;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .donate-section {
+            background: #f4f8fb;
+            border-radius: 12px;
+            border: 2px solid #e60000;
+            padding: 32px 24px;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+            text-align: center;
+        }
+
+        .donate-btn {
+            background: #e60000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                margin: 24px 8px;
+                padding: 24px 8px;
+            }
+
+            .packages {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .package {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Choose Your Digital Property Package</h1>
+        <div class="packages">
+            <div class="package">
+                <div class="price">$29</div>
+                <div class="desc"><b>Starter Apartment</b><br>Perfect for new earners. Includes your first 3 referrals
+                    guarantee.</div>
+                <ul class="features">
+                    <li>Get your own digital address</li>
+                    <li>First 3 referrals guaranteed in 24 hours</li>
+                    <li>Step-by-step training guides</li>
+                    <li>Access to the Rentariz back office</li>
+                    <li>Daily earnings and fast payouts</li>
+                </ul>
+                <a class="buy-btn" href="https://buy.stripe.com/aFa28s197cTuh2Ze0tao801" target="_blank">Buy $29
+                    Package</a>
+            </div>
+            <div class="package">
+                <div class="price">$49</div>
+                <div class="desc"><b>Premium Apartment</b><br>Level up your earnings. Includes your first 3 referrals
+                    guarantee.</div>
+                <ul class="features">
+                    <li>All Starter features</li>
+                    <li>Rent a bigger digital property</li>
+                    <li>Advanced earning strategies</li>
+                    <li>Priority support</li>
+                </ul>
+                <a class="buy-btn" href="https://buy.stripe.com/3cI8wQdVTg5G1415tXao802" target="_blank">Buy $49
+                    Package</a>
+            </div>
+            <div class="package">
+                <div class="price">$99</div>
+                <div class="desc"><b>Big Digital Apartment</b><br>Maximize your potential. Includes your first 3
+                    referrals guarantee.</div>
+                <ul class="features">
+                    <li>All Premium features</li>
+                    <li>Rent the biggest digital property</li>
+                    <li>Exclusive earning tools</li>
+                    <li>VIP support and bonuses</li>
+                </ul>
+                <a class="buy-btn" href="https://buy.stripe.com/aFafZi5pn1aM4gd5tXao803" target="_blank">Buy $99
+                    Package</a>
+            </div>
+        </div>
+        <div class="donate-section">
+            <h2 style="color:#e60000;">Set Your Own Price</h2>
+            <p style="font-size:1.13em;">Know people who want to rent a digital property under you? You can set your own
+                price for them to join your team—just agree on an amount and have them pay using the button below. This
+                is perfect for leaders and networkers who want to build their own group and earn more!</p>
+            <h3 style="margin-bottom:12px;">Choose a Daily Payment Amount:</h3>
+            <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:18px;">
+                <a href="https://buy.stripe.com/7sYcN69FD6v6bIF09Dao807" target="_blank" class="donate-btn">$499 /
+                    day</a>
+                <a href="https://buy.stripe.com/5kQ3cw8BzdXybIF4pTao808" target="_blank" class="donate-btn">$449 /
+                    day</a>
+                <a href="https://buy.stripe.com/8x2bJ2bNL7za4gd2hLao809" target="_blank" class="donate-btn">$399 /
+                    day</a>
+                <a href="https://buy.stripe.com/dRm5kE3hfg5G9Ax4pTao80a" target="_blank" class="donate-btn">$349 /
+                    day</a>
+                <a href="https://buy.stripe.com/7sY3cwdVT2eQ285f4xao80b" target="_blank" class="donate-btn">$299 /
+                    day</a>
+                <a href="https://buy.stripe.com/9B69AU7xv06I4gdg8Bao80c" target="_blank" class="donate-btn">$249 /
+                    day</a>
+                <a href="https://buy.stripe.com/aFa9AU0539Hi5kh3lPao80d" target="_blank" class="donate-btn">$199 /
+                    day</a>
+                <a href="https://buy.stripe.com/7sY3cwbNLaLmeUR6y1ao80e" target="_blank" class="donate-btn">$149 /
+                    day</a>
+            </div>
+            <div style="margin-top:12px;color:#0033a0;font-size:1.05em;">Set your price, send your link, and start
+                building your digital property empire!</div>
+        </div>
+        <div
+            style="margin-top:40px;text-align:center;color:#0033a0;font-size:1.15em;max-width:700px;margin-left:auto;margin-right:auto;">
+            <b>Why pay for a Rentariz package?</b><br>
+            <ul style="text-align:left;display:inline-block;margin:18px auto 0 auto;padding-left:1.2em;">
+                <li>We guarantee your first 3 referrals or your money back—no risk!</li>
+                <li>Unlock daily earnings and build your digital real estate empire</li>
+                <li>Get exclusive access to our back office, training, and support</li>
+                <li>Join a community of motivated earners and property owners</li>
+                <li>Every package and donation helps us create more opportunities for you and others</li>
+            </ul>
+        </div>
+        <div
+            style="margin:40px auto 0 auto;max-width:700px;color:#e60000;font-size:1.08em;text-align:center;background:#fff4f4;border:1.5px solid #e60000;border-radius:10px;padding:22px 18px 18px 18px;">
+            <b>Note:</b> The 3 referral guarantee system does <u>not</u> apply when you set your own rental price for
+            others to join under you. But you can still advertise your own rental price however you like!
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

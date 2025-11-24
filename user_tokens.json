@@ -1,0 +1,23 @@
+{
+  "demo123": {
+    "email": "demo@rizzosai.com",
+    "name": "demo123",
+    "password": "demo123pw"
+  },
+  "admin1": {
+    "email": "admin@rizzosai.com",
+    "name": "admin1",
+    "password": "ILoveMeInYourHeadUFuker871",
+    "role": "admin"
+  },
+  "admin2025": {
+    "email": "admin@rizzosai.com",
+    "name": "Admin",
+    "role": "admin"
+  },
+  "NhkUsQlMEW2fQPyzWN5WHJ19LyLmbcUo3ScV61bYgZs": {
+    "email": "admin@rizzosai.com",
+    "name": "Admin (unguessable)",
+    "role": "admin"
+  }
+}

@@ -1,402 +1,145 @@
+<div class="section">
+    <div class="section" id="secret-vault-section">
+        <h2>Admin: Secret Vault</h2>
+        <form id="vault-unlock-form">
+            <label for="vault-code">Enter 2-digit code to unlock:</label>
+            <input type="password" id="vault-code" maxlength="2" style="width:40px;">
+            <button type="submit"
+                style="background:#001f5b;color:#fff;padding:6px 16px;border:none;border-radius:4px;font-weight:bold;">Unlock</button>
+        </form>
+        <div id="vault-content" style="display:none;margin-top:12px;"></div>
+        <div id="vault-error" style="color:#e60000;margin-top:8px;"></div>
+        <script>
+            document.getElementById('vault-unlock-form').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const code = document.getElementById('vault-code').value;
+                const errorDiv = document.getElementById('vault-error');
+                const contentDiv = document.getElementById('vault-content');
+                errorDiv.textContent = '';
+                if (code !== '89') {
+                    errorDiv.textContent = 'Incorrect code.';
+                    contentDiv.style.display = 'none';
+                    return;
+                }
+                // Fetch secrets from backend
+                try {
+                    const resp = await fetch('/vault', { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: '' });
+                    if (resp.ok) {
+                        const data = await resp.text();
+                        contentDiv.innerHTML = data;
+                        contentDiv.style.display = 'block';
+                    } else {
+                        errorDiv.textContent = 'Could not load secrets.';
+                    }
+                } catch (err) {
+                    errorDiv.textContent = 'Error: ' + err.message;
+                }
+            });
+        </script>
+    </div>
+    <h2>Admin: Deploy to Fly.io</h2>
+    <form id="deploy-form">
+        <button type="submit"
+            style="background:#e60000;color:#fff;padding:8px 20px;border:none;border-radius:4px;font-weight:bold;">Deploy
+            Latest Version</button>
+    </form>
+    <div id="deploy-result" style="margin-top:10px;color:#007700;font-weight:bold;"></div>
+    <script>
+        document.getElementById('deploy-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const resultDiv = document.getElementById('deploy-result');
+            resultDiv.textContent = 'Deploying...';
+            try {
+                const resp = await fetch('/deploy', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                if (resp.ok) {
+                    const data = await resp.text();
+                    resultDiv.textContent = data;
+                } else {
+                    resultDiv.textContent = 'Error: Could not trigger deploy.';
+                }
+            } catch (err) {
+                resultDiv.textContent = 'Error: ' + err.message;
+            }
+        });
+    </script>
+</div>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RizzosAI Domain Packages - Expert Guides Included</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #e60000 0%, #fff 50%, #001f5b 100%);
-            color: #001f5b;
-        }
-
-        header {
-            background: #e60000;
-            color: #fff;
-            padding: 32px 0 16px 0;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.2em;
-        }
-
-        .intro-section {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 0 24px rgba(0, 31, 91, 0.08);
-            max-width: 900px;
-            margin: 32px auto;
-            padding: 32px 24px;
-            border: 2px solid #e60000;
-            text-align: center;
-        }
-
-        .intro-section h2 {
-            color: #001f5b;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        .intro-section p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .logic-box {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 0 24px rgba(0, 31, 91, 0.08);
-            max-width: 1200px;
-            margin: 32px auto;
-            padding: 32px 24px;
-            border: 2px solid #e60000;
-        }
-
-        .logic-box h2 {
-            color: #001f5b;
-            margin-top: 0;
-            text-align: center;
-            font-size: 2.2em;
-        }
-
-        .guides-highlight {
-            background: linear-gradient(135deg, #e60000, #001f5b);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .guides-highlight h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.4em;
-        }
-
-        .guides-list {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #e60000;
-        }
-
-        .guides-list h4 {
-            color: #001f5b;
-            margin: 0 0 10px 0;
-            font-size: 1.1em;
-        }
-
-        .guides-list ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .guides-list li {
-            margin-bottom: 5px;
-            font-size: 0.95em;
-        }
-
-        .flag {
-            display: block;
-            margin: 0 auto 24px auto;
-            width: 120px;
-            height: 80px;
-            background: linear-gradient(90deg, #e60000 33%, #fff 33%, #fff 66%, #001f5b 66%);
-            border: 2px solid #001f5b;
-            border-radius: 6px;
-        }
-
-        .package-box {
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0, 31, 91, 0.08);
-            border: 2px solid #e60000;
-            max-width: 350px;
-            padding: 32px 24px;
-            text-align: center;
-        }
-
-        .package-box ul {
-            list-style: disc;
-            padding-left: 1.5em;
-            text-align: left;
-            margin-bottom: 18px;
-        }
-
-        .package-box li {
-            margin-bottom: 8px;
-        }
-
-        .buy-button {
-            display: inline-block;
-            background: #e60000;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.1em;
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            box-shadow: 0 2px 8px rgba(230, 0, 0, 0.08);
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .buy-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 16px rgba(230, 0, 0, 0.2);
-        }
-
-        .buy-button.pro {
-            background: #001f5b;
-        }
-
-        .buy-button.green {
-            background: #001f5b;
-            color: #fff;
-        }
-
-        .buy-button.green:hover {
-            background: #003080;
-        }
-
-        @media (max-width: 768px) {
-            .logic-box {
-                margin: 16px;
-                padding: 20px 16px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .intro-section {
-                margin: 16px;
-                padding: 20px 16px;
-            }
-        }
-    </style>
+    <title>Welcome to RizzosAI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-    <header>
-        <div class="flag"></div>
-        <h1>RizzosAI Domain Packages</h1>
-        <p style="font-size: 1.3em; margin: 0;">Complete Business Solutions with Expert Training Guides</p>
-    </header>
-    <div class="intro-section">
-        <h2>🎯 Why Choose RizzosAI Domains?</h2>
-        <p>Every package includes comprehensive, step-by-step training guides written by industry experts who have
-            generated millions in online revenue. These aren't basic tutorials - they're professional-grade strategies
-            used by successful entrepreneurs worldwide.</p>
-        <p><strong>Our guides cover everything from beginner fundamentals to advanced scaling techniques, ensuring you
-                have the knowledge to maximize your investment and build a sustainable online business.</strong></p>
-    </div>
-    <div class="logic-box">
-        <h2>Choose Your Success Package</h2>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px;margin-top:40px;">
-            <!-- STARTER PACKAGE -->
-            <div class="package-box">
-                <div
-                    style="background:#e60000;color:#fff;font-weight:bold;font-size:1.1em;padding:8px 0;border-radius:8px;margin-bottom:12px;">
-                    STARTER</div>
-                <div style="font-size:2em;color:#001f5b;font-weight:bold;margin-bottom:12px;">$29 + GST</div>
-                <div class="guides-highlight">
-                    <h3>🎓 5 Essential Success Guides</h3>
-                    <p>Perfect foundation for beginners</p>
-                </div>
-                <div class="guides-list">
-                    <h4>Your Complete Starter Library:</h4>
-                    <ul>
-                        <li><strong>Domain Mastery 101:</strong> How to choose, register & optimize domains for maximum
-                            profit</li>
-                        <li><strong>First Week Success:</strong> Step-by-step roadmap to your first $100 online</li>
-                        <li><strong>Referral Goldmine:</strong> Proven techniques to turn every contact into revenue
-                        </li>
-                        <li><strong>Traffic Secrets:</strong> Free methods to drive visitors to your domains</li>
-                        <li><strong>Profit Optimization:</strong> How to scale from $100 to $1000+ monthly</li>
-                    </ul>
-                </div>
-                <ul>
-                    <li><b>Full access to your back office</b></li>
-                    <li>First referral goes to you</li>
-                    <li>Second referral goes to the owner</li>
-                    <li>Third and all future referrals are yours for lifetime</li>
-                    <li>Lifetime earnings go into your account every day</li>
-                    <li>Fast daily payments</li>
-                </ul>
-                <a class="buy-button pro" href="https://buy.stripe.com/7sY8wP10P8ZGcAN5fT1ZS0r" target="_blank" rel="noopener">Buy Starter</a>
-            </div>
-            <!-- PRO PACKAGE -->
-            <div class="package-box">
-                <div
-                    style="background:#001f5b;color:#fff;font-weight:bold;font-size:1.1em;padding:8px 0;border-radius:8px;margin-bottom:12px;">
-                    PRO</div>
-                <div style="font-size:2em;color:#001f5b;font-weight:bold;margin-bottom:12px;">$99 + GST</div>
-                <div class="guides-highlight">
-                    <h3>🚀 13 Advanced Business Guides</h3>
-                    <p>Professional-level strategies included</p>
-                </div>
-                <div class="guides-list">
-                    <h4>Everything in Starter PLUS 8 Pro Guides:</h4>
-                    <ul>
-                        <li><strong>Facebook Ads Mastery:</strong> Complete guide to profitable ad campaigns</li>
-                        <li><strong>Conversion Psychology:</strong> How to turn visitors into buyers</li>
-                        <li><strong>Email Marketing Empire:</strong> Build automated income streams</li>
-                        <li><strong>SEO Domination:</strong> Rank #1 on Google organically</li>
-                        <li><strong>Social Media Profits:</strong> Monetize every platform effectively</li>
-                        <li><strong>Analytics & Tracking:</strong> Measure and optimize everything</li>
-                        <li><strong>Brand Building Secrets:</strong> Create a memorable online presence</li>
-                        <li><strong>Competitor Analysis:</strong> Steal winning strategies legally</li>
-                    </ul>
-                </div>
-                <ul>
-                    <li>Everything in Starter ($29)</li>
-                    <li>PLUS: Your own $10 Facebook ads—guaranteed to get you results</li>
-                    <li>Includes your own tracking URL for ad performance</li>
-                    <li>All daily earnings and fast payments included</li>
-                </ul>
-                <a class="buy-button pro" href="https://buy.stripe.com/28E8wP6l9b7O58lcIl1ZS0s" target="_blank"
-                    rel="noopener">Buy Pro</a>
-            </div>
-            <!-- ELITE PACKAGE -->
-            <div class="package-box">
-                <div
-                    style="background:#e60000;color:#fff;font-weight:bold;font-size:1.1em;padding:8px 0;border-radius:8px;margin-bottom:12px;">
-                    ELITE</div>
-                <div style="font-size:2em;color:#001f5b;font-weight:bold;margin-bottom:12px;">$249 + GST</div>
-                <div class="guides-highlight">
-                    <h3>⚡ 20 Elite Strategy Guides</h3>
-                    <p>Advanced scaling & automation secrets</p>
-                </div>
-                <div class="guides-list">
-                    <h4>Everything in Pro PLUS 7 Elite Guides:</h4>
-                    <ul>
-                        <li><strong>Six-Figure Scaling:</strong> How to reach $100k+ annually</li>
-                        <li><strong>Automation Mastery:</strong> Build passive income systems</li>
-                        <li><strong>High-Ticket Sales:</strong> Sell premium products & services</li>
-                        <li><strong>Team Building Secrets:</strong> Hire and manage virtual assistants</li>
-                        <li><strong>Investment Strategies:</strong> Reinvest profits for exponential growth</li>
-                        <li><strong>Tax Optimization:</strong> Keep more of what you earn legally</li>
-                        <li><strong>Exit Strategies:</strong> Sell your business for maximum value</li>
-                    </ul>
-                </div>
-                <ul>
-                    <li>Everything in Starter ($29) and Pro ($99)</li>
-                    <li>PLUS: $50 worth of Facebook ads (run once for you)</li>
-                    <li>All daily earnings, fast payments, and ad tracking included</li>
-                </ul>
-                <a class="buy-button" href="https://buy.stripe.com/bJe3cv10Pfo4fMZdMp1ZS0t" target="_blank"
-                    rel="noopener">Buy Elite</a>
-            </div>
-            <!-- EMPIRE PACKAGE -->
-            <div class="package-box">
-                <div
-                    style="background:linear-gradient(90deg,#e60000 33%,#fff 33%,#fff 66%,#001f5b 66%);color:#001f5b;font-weight:bold;font-size:1.1em;padding:8px 0;border-radius:8px;margin-bottom:12px;">
-                    EMPIRE</div>
-                <div style="font-size:2em;color:#001f5b;font-weight:bold;margin-bottom:12px;">$499 + GST</div>
-                <div class="guides-highlight">
-                    <h3>👑 35 Empire Building Guides</h3>
-                    <p>Complete business empire blueprint</p>
-                </div>
-                <div class="guides-list">
-                    <h4>Everything in Elite PLUS 15 Empire Guides:</h4>
-                    <ul>
-                        <li><strong>Million Dollar Mindset:</strong> Think and act like a millionaire</li>
-                        <li><strong>Multi-Stream Income:</strong> Create 7+ revenue sources</li>
-                        <li><strong>Global Expansion:</strong> Scale internationally</li>
-                        <li><strong>Joint Ventures:</strong> Partner with industry leaders</li>
-                        <li><strong>Personal Branding:</strong> Become the go-to expert</li>
-                        <li><strong>Speaking & Coaching:</strong> Monetize your knowledge</li>
-                        <li><strong>Product Creation:</strong> Build digital assets that sell</li>
-                        <li><strong>Licensing & Franchising:</strong> Scale without limits</li>
-                        <li><strong>Investment Portfolio:</strong> Build generational wealth</li>
-                        <li><strong>Legacy Planning:</strong> Create lasting impact</li>
-                        <li><strong>Crisis Management:</strong> Protect your empire</li>
-                        <li><strong>Innovation Strategies:</strong> Stay ahead of competition</li>
-                        <li><strong>Leadership Excellence:</strong> Lead teams effectively</li>
-                        <li><strong>Negotiation Mastery:</strong> Win every business deal</li>
-                        <li><strong>Empire Succession:</strong> Plan for the future</li>
-                    </ul>
-                </div>
-                <ul>
-                    <li>Everything in Starter ($29), Pro ($99), and Elite ($249)</li>
-                    <li>PLUS: $100 worth of Facebook ads (run once for you)</li>
-                    <li>VIP support and priority assistance</li>
-                    <li>All daily earnings, fast payments, and advanced tracking</li>
-                </ul>
-                <a class="buy-button" href="https://buy.stripe.com/28E5kD5h56Ry7gt23H1ZS0u" target="_blank"
-                    rel="noopener">Buy Empire</a>
-            </div>
-        </div>
-        <!-- Leaderboard Section -->
-        <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid #e60000;">
-            <h2 style="text-align: center; color: #001f5b; margin-bottom: 30px;">🏆 Top Earners Leaderboard</h2>
-            <div id="leaderboard-container" style="max-width: 800px; margin: 0 auto;">
-                <ul id="leaderboard-list" style="list-style: none; padding: 0;"></ul>
-                <div id="leaderboard-loading" style="text-align:center; color:#888;">Loading leaderboard...</div>
-            </div>
+    <div class="container">
+        <h1>Welcome to RizzosAI</h1>
+        <p>Meet <b>Coey</b>, your friendly AI guide! Coey will take you step-by-step through setting up your own domain
+            space, renting it out, and earning commissions. Whether you want to build, rent, or just explore, Coey is
+            here to help you succeed.</p>
+        <h2>How the RizzosAI Rental System Works</h2>
+        <ul>
+            <li><b>Own Your Space:</b> Register your domain and set up your digital space with help from Coey, our AI
+                assistant.</li>
+            <li><b>Rent It Out:</b> List your space for others to rent. You can earn commissions every time someone
+                leases your domain space.</li>
+            <li><b>Earn & Learn:</b> Coey will show you how to maximize your earnings, manage your listings, and even
+                automate your rental process.</li>
+            <li><b>Pass-Up System:</b> Every second leasee is automatically passed up to the admin. This helps keep the
+                platform running and supports the community.</li>
+            <li><b>Flexible Use:</b> You can use your space, rent it out, or even "live" in it—it's your choice!</li>
+            <li><b>24/7 Support:</b> Need help? Our team is here for you around the clock—get support any time, day or
+                night.</li>
+        </ul>
+        <p>Ready to get started? <a href="/signup">Sign up</a> and let Coey guide you to your first rental and
+            commission!</p>
+        <footer style="margin-top: 40px; color: #888;">
+            &copy; 2025 RizzosAI. All rights reserved.
+        </footer>
+        <div class="ai-section">
+            <h2>Ask Claude (AI Assistant)</h2>
+            <form id="claude-form">
+                <input type="text" id="claude_prompt" name="claude_prompt" placeholder="Ask anything..."
+                    style="width:70%;padding:8px;border-radius:4px;border:1px solid #bbb;">
+                <button type="submit"
+                    style="background:#635bff;color:#fff;padding:6px 16px;border:none;border-radius:4px;font-weight:bold;">Ask</button>
+            </form>
+            <div class="ai-response" id="ai-response">Hey! How's it going? What can I help you with today?</div>
+            <script>
+                document.getElementById('claude-form').addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const prompt = document.getElementById('claude_prompt').value;
+                    const responseDiv = document.getElementById('ai-response');
+                    responseDiv.textContent = 'Thinking...';
+                    try {
+                        const resp = await fetch(window.location.pathname, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: new URLSearchParams({ claude_prompt: prompt })
+                        });
+                        if (resp.ok) {
+                            const data = await resp.text();
+                            responseDiv.textContent = data;
+                        } else {
+                            responseDiv.textContent = 'Error: Could not get response.';
+                        }
+                    } catch (err) {
+                        responseDiv.textContent = 'Error: ' + err.message;
+                    }
+                });
+            </script>
         </div>
     </div>
-    <div class="intro-section" style="margin-top:40px;">
-        <h2>Get Started: Join Our List</h2>
-        <form id="leadForm" method="POST" action="https://hooks.zapier.com/hooks/catch/123456/abcde/">
-            <input type="email" name="email" placeholder="Enter your email to get started" required>
-            <button type="submit">Get My Domain</button>
-        </form>
-        <div class="note">
-            We respect your privacy. No spam. Unsubscribe anytime.<br>
-            <strong>Compliant with Facebook advertising policies.</strong>
-        </div>
-    </div>
-    <div class="footer">
-        &copy; 2025 Rizzos Domains. Not affiliated with Namecheap. All rights reserved.
-    </div>
-    <script>
-        async function loadLeaderboard() {
-            const list = document.getElementById('leaderboard-list');
-            const loading = document.getElementById('leaderboard-loading');
-            try {
-                const res = await fetch('/api/leaderboard');
-                if (!res.ok) throw new Error('Network error');
-                const data = await res.json();
-                list.innerHTML = '';
-                if (data.leaderboard && data.leaderboard.length > 0) {
-                    data.leaderboard.forEach((entry, i) => {
-                        const crown = i === 0 ? '<span style="font-size:1.2em;">👑</span> ' : '';
-                        const li = document.createElement('li');
-                        li.style.cssText = 'padding: 15px; background: #f8f9fa; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #e60000; display: flex; justify-content: space-between; align-items: center;';
-                        li.innerHTML = `
-                            <div>
-                                ${crown}<strong>${entry.name}</strong> (@${entry.username})
-                            </div>
-                            <div>
-                                <span style="color: #e60000; font-weight: bold;">$${entry.earnings}/day</span>
-                                <span style="color: #666; margin-left: 10px;">${entry.referrals} referrals</span>
-                            </div>
-                        `;
-                        list.appendChild(li);
-                    });
-                } else {
-                    list.innerHTML = '<li style="text-align: center; color: #666; padding: 20px;">No leaderboard data yet. Be the first!</li>';
-                }
-                loading.style.display = 'none';
-            } catch (e) {
-                loading.textContent = 'Failed to load leaderboard.';
-                console.error('Leaderboard error:', e);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            loadLeaderboard();
-            setInterval(loadLeaderboard, 60000);
-        });
-    </script>
 </body>
 
 </html>

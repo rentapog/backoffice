@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Domain | Admin Backoffice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Register a New Domain</h2>
+        <form method="POST" action="/admin/register-domain">
+            <label for="domain">Domain Name:</label>
+            <input type="text" id="domain" name="domain" value="{{ domain }}" required placeholder="example.com">
+            <button type="submit">Register Domain</button>
+        </form>
+        {% if msg %}
+        <div class="msg">{{ msg }}</div>
+        {% endif %}
+        <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

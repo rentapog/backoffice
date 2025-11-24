@@ -1,5 +1,8 @@
 flask
-requests
-anthropic
-python-dotenv
+pyotp
+qrcode[pil]
+pillow
 gunicorn
+anthropic
+stripe
+python-dotenv

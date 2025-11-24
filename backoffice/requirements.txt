@@ -1,5 +1,7 @@
-Flask
+flask
+pyotp
+qrcode[pil]
+pillow
 gunicorn
 anthropic
-python-dotenv
-requests
+stripe

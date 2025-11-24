@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back Office | Rent A Pog</title>
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-box {
+            background: #fff;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+            padding: 40px 32px;
+            border: 2px solid #0033a0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #0033a0;
+            text-align: center;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .nav a {
+            color: #0033a0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            color: #d9001f;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .dashboard-box {
+            background: #f4f8fb;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 18px;
+            border-left: 4px solid #0033a0;
+        }
+
+        .squeeze-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .squeeze-list li {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background: #0033a0;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-red {
+            background: #d9001f;
+        }
+
+        .form-section {
+            background: #fffbe8;
+            border-radius: 10px;
+            padding: 18px 20px;
+            border-left: 4px solid #d9001f;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .main-box {
+                margin: 24px 8px 0 8px;
+                padding: 24px 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-box {
+                padding: 10px 2vw;
+                border-radius: 8px;
+            }
+
+            h1 {
+                font-size: 1.2em !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-box">
+        <h1>Back Office Dashboard</h1>
+        <nav class="nav">
+            <a href="#dashboard">Dashboard</a>
+            <a href="#squeeze">Squeeze Pages</a>
+            <a href="#referrals">Referrals</a>
+            <a href="#settings">Settings</a>
+            <a href="#support">Support</a>
+        </nav>
+        <div class="section" id="dashboard">
+            <div class="section-title">Your Account Overview</div>
+            <div class="dashboard-box">
+                <p><b>Status:</b> Active</p>
+                <p><b>Referrals:</b> 0</p>
+                <p><b>Current Plan:</b> Basic</p>
+                <p><b>Next Billing Date:</b> 2025-12-21</p>
+            </div>
+        </div>
+        <div class="section" id="squeeze">
+            <div class="section-title">Your Squeeze Pages</div>
+            <ul class="squeeze-list">
+                <li>squeeze1.html <button class="btn">Edit</button></li>
+                <li>squeeze2.html <button class="btn">Edit</button></li>
+                <li>squeeze3.html <button class="btn">Edit</button></li>
+                <li>... (more) ...</li>
+            </ul>
+            <button class="btn btn-red">Create New Squeeze Page</button>
+        </div>
+        <div class="section" id="referrals">
+            <div class="section-title">Referral Stats</div>
+            <div class="dashboard-box">
+                <p><b>Total Referrals:</b> 0</p>
+                <p><b>Pending Pass-Ups:</b> 0</p>
+                <p><b>Commission Earned:</b> $0.00</p>
+            </div>
+        </div>
+        <div class="section" id="settings">
+            <div class="section-title">Account Settings</div>
+            <div class="form-section">
+                <form>
+                    <label>Email: <input type="email" value="user@email.com"></label><br><br>
+                    <label>Password: <input type="password" value=""></label><br><br>
+                    <button class="btn">Update</button>
+                </form>
+            </div>
+        </div>
+        <div class="section" id="support">
+            <div class="section-title">Support</div>
+            <div class="dashboard-box">
+                <p>Need help? Contact our 24/7 support team at <a
+                        href="mailto:support@rentapog.com">support@rentapog.com</a> or use the chat in your dashboard.
+                </p>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2025 Rent A Pog. All rights reserved.</p>
+        </footer>
+        <!-- Coey AI Assistant Section -->
+        <div class="section" id="coey-assistant" style="margin-top:40px;">
+            <div class="section-title" style="color:#0033a0;">Coey AI Assistant</div>
+            <div
+                style="background:#f4f8fb; border-radius:10px; padding:18px 20px; border-left:4px solid #0033a0; max-width:600px; margin:0 auto;">
+                <form id="coey-form" style="display:flex;flex-direction:column;gap:10px;">
+                    <input type="text" id="coey-question"
+                        placeholder="Ask Coey anything (marketing, code, downloads, website requests, etc.)..."
+                        style="padding:8px;border-radius:4px;border:1px solid #bbb;">
+                    <button type="submit" class="btn">Ask Coey</button>
+                </form>
+                <div id="coey-answer" style="margin-top:14px;color:#222;font-size:1.08em;"></div>
+                <!-- Admin-only controls -->
+                <div id="coey-admin-controls" style="display:none; margin-top:24px;">
+                    <div style="font-weight:bold; color:#d9001f; margin-bottom:8px;">Admin Controls</div>
+                    <button class="btn btn-red" onclick="showDashboardEdit()">Change Dashboard Layout</button>
+                    <button class="btn" onclick="showAddSection()">Add Dashboard Section</button>
+                    <div id="admin-action-area" style="margin-top:16px;"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Simulate admin check (replace with real backend check in production)
+            var isAdmin = true; // Set to true for admin, false for regular users
+
+            // Show admin controls if admin
+            if (isAdmin) {
+                document.getElementById('coey-admin-controls').style.display = 'block';
+            }
+
+            // Coey AI logic for backoffice
+            const coeyFaq = [
+                { q: /download.*file/i, a: "To download files, please specify the filename or type of file you want. Coey can prepare your requested file for download." },
+                { q: /make.*website|build.*website|create.*website/i, a: "Coey can help you create a website! Please provide details about the site you want (purpose, style, features)." },
+                { q: /marketing|promote|traffic|leads|conversion/i, a: "Coey knows online marketing! Ask about strategies, tools, or tips for your business." },
+                { q: /code|script|automation|python|html|css|javascript/i, a: "Coey can write code for you. Tell me what you need automated or coded, and I'll help!" },
+                { q: /help|support|contact/i, a: "You can always reach support at support@rentapog.com, but Coey is here for instant answers and automation!" },
+                { q: /wife|partner|assistant/i, a: "Coey is your AI assistant and can help with a wide range of online business, marketing, and tech tasks!" },
+            ];
+            let lastQuestion = "";
+            document.getElementById('coey-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const input = document.getElementById('coey-question').value.trim();
+                const answerDiv = document.getElementById('coey-answer');
+                if (!input) { answerDiv.textContent = "Please enter a question or command."; return; }
+                if (input.toLowerCase() === lastQuestion.toLowerCase()) {
+                    answerDiv.textContent = "😊 I'm always here! Ask for downloads, websites, code, or marketing help.";
+                    return;
+                }
+                lastQuestion = input;
+                let found = false;
+                for (const pair of coeyFaq) {
+                    if (pair.q.test(input)) {
+                        answerDiv.textContent = pair.a;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    answerDiv.textContent = "Coey is ready! Ask for downloads, website creation, code, or marketing advice.";
+                }
+            });
+
+            // Admin dashboard change handlers (placeholders)
+            function showDashboardEdit() {
+                document.getElementById('admin-action-area').innerHTML = '<div style="margin-bottom:8px;">[Admin] Edit dashboard layout here (feature coming soon).</div>';
+            }
+            function showAddSection() {
+                document.getElementById('admin-action-area').innerHTML = '<div style="margin-bottom:8px;">[Admin] Add a new dashboard section (feature coming soon).</div>';
+            }
+        </script>
+    </div>
+</body>
+
+</html>

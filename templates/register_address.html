@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Register Address | Rentariz</title>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	<style>
+		body {
+			background: #f4f6fa;
+			font-family: 'Montserrat', Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 40px auto;
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+			padding: 40px 32px;
+		}
+
+		.logo {
+			display: block;
+			margin: 0 auto 24px auto;
+			max-width: 140px;
+		}
+
+		h1 {
+			text-align: center;
+			color: #0033a0;
+			margin-bottom: 32px;
+			font-size: 2.2em;
+		}
+
+		.register-form {
+			max-width: 420px;
+			margin: 0 auto 40px auto;
+			background: #f4f8fb;
+			border-radius: 12px;
+			border: 2px solid #0033a0;
+			padding: 32px 24px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		.register-form label {
+			font-weight: bold;
+			color: #0033a0;
+			display: block;
+			margin-bottom: 8px;
+		}
+
+		.register-form input[type="text"] {
+			width: 100%;
+			padding: 10px;
+			border-radius: 8px;
+			border: 2px solid #e3eafc;
+			font-size: 1.1em;
+			margin-bottom: 18px;
+		}
+
+		.register-form .btn-primary {
+			background: #0033a0;
+			color: #fff;
+			border: none;
+			border-radius: 6px;
+			padding: 12px 28px;
+			font-size: 1.1em;
+			font-weight: bold;
+			cursor: pointer;
+			text-decoration: none;
+			display: inline-block;
+			margin-top: 10px;
+		}
+
+		.register-form .btn-primary:hover {
+			background: #e60000;
+		}
+
+		.leaderboard {
+			margin-top: 40px;
+			background: #f4f8fb;
+			border-radius: 12px;
+			border: 2px solid #e60000;
+			padding: 32px 24px;
+			max-width: 600px;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+
+		.leaderboard h2 {
+			color: #e60000;
+			margin-bottom: 18px;
+			font-size: 1.5em;
+		}
+
+		.leaderboard table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 12px;
+		}
+
+		.leaderboard th,
+		.leaderboard td {
+			padding: 10px;
+			text-align: center;
+			border-bottom: 1px solid #b3c7e6;
+		}
+
+		.leaderboard th {
+			background: #0033a0;
+			color: #fff;
+		}
+
+		.leaderboard tr:last-child td {
+			border-bottom: none;
+		}
+
+		.leaderboard tr:nth-child(even) {
+			background: #f4f6fa;
+		}
+
+		footer {
+			margin-top: 32px;
+			text-align: center;
+			color: #0033a0;
+		}
+
+		footer a {
+			color: #e60000;
+			text-decoration: none;
+			margin: 0 8px;
+			font-weight: bold;
+		}
+
+		@media (max-width: 900px) {
+			.container {
+				margin: 24px 8px;
+				padding: 24px 8px;
+			}
+
+			.register-form {
+				width: 95%;
+			}
+
+			.leaderboard {
+				padding: 18px 2vw;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<img src="/static/rentariz_logo.png" alt="Rentariz Logo" class="logo">
+		<h1>Register Your Digital Address</h1>
+		<div style="max-width:600px;margin:0 auto 32px auto;text-align:center;">
+			<h2 style="color:#e60000;font-size:1.35em;margin-bottom:10px;">Choose your destination on the World Wide Web
+				today for $20 a day</h2>
+			<div style="color:#0033a0;font-size:1.13em;">and get put into the system for your next 3 referrals!</div>
+		</div>
+		<form class="register-form" method="POST" action="/register-address">
+			<label for="domain">Domain Name</label>
+			<input type="text" id="domain" name="domain" required>
+			<button type="submit" class="btn-primary">Register</button>
+		</form>
+		<!-- Leaderboard Ticker (matches front.html) -->
+		<div class="leaderboard-ticker-container"
+			style="overflow:hidden;width:100vw;background:#f4f8fb;position:relative;z-index:10;height:48px;display:flex;align-items:center;margin-bottom:32px;">
+			<div class="leaderboard-label"
+				style="background:#fff;color:#0033a0;font-weight:bold;padding:2px 12px;border-radius:6px;z-index:2;font-size:1em;box-shadow:0 2px 8px rgba(0,0,0,0.03);position:absolute;left:16px;top:50%;transform:translateY(-50%);">
+				Leaderboard</div>
+			<div class="leaderboard-ticker" id="leaderboard-ticker"
+				style="display:flex;white-space:nowrap;animation:ticker-scroll 40s linear infinite;font-size:1.15em;align-items:center;margin-left:120px;">
+			</div>
+		</div>
+		<script>
+			const firstNames = ["Alex", "Jamie", "Priya", "Chris", "Maria", "Samir", "Jessica", "Tyler", "Olivia", "Marcus", "Emily", "David", "Fatima", "Ben", "Sophia", "Leo", "Hannah", "Mateo", "Chloe", "Lucas", "Ava", "Noah", "Mia", "Ethan", "Liam", "Zara", "Isabella", "Jack", "Layla", "Owen", "Ella", "Mason", "Ruby", "Jacob", "Lily", "Elijah", "Grace", "Carter", "Sofia", "Logan"];
+			const lastNames = ["Carter", "Lee", "Patel", "Johnson", "Gomez", "Khan", "Smith", "Nguyen", "Brown", "Silva", "Chen", "Kim", "Zahra", "Thompson", "Rossi", "Dubois", "Müller", "Garcia", "Wilson", "Evans", "Clark", "Turner", "Baker", "Walker", "Young", "King", "Scott", "Green", "Adams", "Hill", "Lewis", "Moore", "Wright", "Bennett", "Cruz", "Reed", "Bailey", "Rivera", "Cooper", "Ward"];
+			const packages = [29, 49, 99, 149, 199, 249, 299, 349, 399, 449, 499];
+			const usedNames = new Set();
+			function getRandomName() {
+				let name;
+				let tries = 0;
+				do {
+					const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+					const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+					name = `${first} ${last}`;
+					tries++;
+				} while (usedNames.has(name) && tries < 100);
+				usedNames.add(name);
+				return name;
+			}
+			function getRandomPackage() {
+				return packages[Math.floor(Math.random() * packages.length)];
+			}
+			function generateTickerMessages(count) {
+				const messages = [];
+				for (let i = 0; i < count; i++) {
+					const name = getRandomName();
+					const pkg = getRandomPackage();
+					messages.push(`${name} just bought the $${pkg} package`);
+				}
+				return messages;
+			}
+			function fillTicker() {
+				const ticker = document.getElementById('leaderboard-ticker');
+				ticker.innerHTML = '';
+				usedNames.clear();
+				const minNames = 20;
+				const maxNames = 40;
+				const nameCount = Math.floor(Math.random() * (maxNames - minNames + 1)) + minNames;
+				const messages = generateTickerMessages(nameCount);
+				for (const msg of messages) {
+					const span = document.createElement('span');
+					span.textContent = msg;
+					span.style.display = 'inline-block';
+					span.style.margin = '0 32px';
+					span.style.color = '#0033a0';
+					span.style.fontWeight = 'bold';
+					ticker.appendChild(span);
+				}
+			}
+			fillTicker();
+			setInterval(fillTicker, 180000);
+		</script>
+		<style>
+			@keyframes ticker-scroll {
+				0% {
+					transform: translateX(0);
+				}
+
+				100% {
+					transform: translateX(-100%);
+				}
+			}
+
+			@media (max-width: 600px) {
+				.leaderboard-ticker span {
+					margin: 0 12px;
+					font-size: 0.98em;
+				}
+
+				.leaderboard-label {
+					left: 4px;
+					font-size: 0.95em;
+					padding: 2px 6px;
+				}
+
+				.leaderboard-ticker {
+					margin-left: 80px;
+				}
+			}
+		</style>
+		<footer>
+			<a href="/privacy-policy">Privacy Policy</a> |
+			<a href="/terms-and-conditions">Terms and Conditions</a>
+		</footer>
+	</div>
+</body>
+
+</html>

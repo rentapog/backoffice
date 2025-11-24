@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Backoffice Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter
+    :wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #f5f7fa 0%, #e60000 100%);
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0, 31, 91, 0.12);
+            padding: 40px 48px;
+            border: none;
+        }
+
+        h1 {
+            color: #e60000;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .upload-area {
+            border: 2px dashed #e60000;
+            padding: 32px;
+            text-align: center;
+            background: #f9f9f9;
+            border-radius: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .upload-area:hover {
+            border-color: #b30000;
+        }
+
+        .upload-area input[type="file"] {
+            margin-top: 16px;
+        }
+
+        .btn {
+            background: #e60000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #b30000;
+        }
+
+        .manage-content {
+            background: #f5f7fa;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Backoffice Dashboard</h1>
+        <div class="section">
+            <h2>Upload Files</h2>
+            <div class="upload-area">
+                <form action="/backoffice/upload" method="post" enctype="multipart/form-data">
+                    <label for="file">Choose file to upload:</label><br>
+                    <input type="file" id="file" name="file"><br><br>
+                    <button class="btn" type="submit">Upload</button>
+                </form>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Uploaded Files</h2>
+            <div class="manage-content">
+                {% if files and files|length > 0 %}
+                <ul style="list-style:none;padding:0;">
+                    {% for file in files %}
+                    <li style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+                        <span>{{ file }}</span>
+                        <span>
+                            <a href="/uploads/{{ file }}" class="btn"
+                                style="padding:4px 16px;font-size:0.9rem;">Preview</a>
+                            <form action="/backoffice/delete" method="post" style="display:inline;">
+                                <input type="hidden" name="file" value="{{ file }}">
+                                <button class="btn" type="submit"
+                                    style="background:#fff;color:#e60000;border:1px solid #e60000;padding:4px 16px;font-size:0.9rem;">Delete</button>
+                            </form>
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No files uploaded yet.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="section">
+            <h2>Manage Content</h2>
+            <div class="manage-content">
+                <p>Welcome to your back office! Here you can upload files, organize your content, and let Coey help you
+                    place things exactly where you want. Just specify the location and type of content you need, and
+                    Coey will handle the rest.</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Website Health Monitoring</h2>
+            <div class="manage-content">
+                <p><strong>Coey keeps an eye on your websites and services.</strong></p>
+                <ul>
+                    <li>Automatic health checks for your main sites.</li>
+                    <li>Alerts if a site goes down or is slow.</li>
+                    <li>Manual check and auto-fix options below.</li>
+                </ul>
+                <form action="/backoffice/check-sites" method="post" style="display:inline;">
+                    <button class="btn" type="submit">Check All Sites Now</button>
+                </form>
+                <form action="/backoffice/fix-sites" method="post" style="display:inline;margin-left:12px;">
+                    <button class="btn" type="submit"
+                        style="background:#fff;color:#e60000;border:1px solid #e60000;">Auto-Fix Down Sites</button>
+                </form>
+                {% if site_statuses %}
+                <div style="margin-top:24px;">
+                    <h3>Current Status:</h3>
+                    <ul>
+                        {% for site, status in site_statuses.items() %}
+                        <li><strong>{{ site }}</strong>: {{ status }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% if fix_result %}
+                <div
+                    style="margin-top:24px;padding:16px;background:#e6fff3;border-radius:8px;border:1px solid #00b300;">
+                    <strong>Auto-Fix Result:</strong> {{ fix_result }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="section">
+            <h2>Coey Agent</h2>
+            <div class="manage-content">
+                <p><strong>Coey is your smart assistant for the back office.</strong></p>
+                <ul>
+                    <li>Ask Coey to move, organize, or edit files.</li>
+                    <li>Request help with tasks, automation, or content placement.</li>
+                    <li>Coey can provide updates, suggestions, and manage your workflow.</li>
+                </ul>
+                <form action="/backoffice/coey" method="post">
+                    <label for="coey-task">Tell Coey what you need:</label><br>
+                    <input type="text" id="coey-task" name="coey-task" style="width:80%;padding:8px;margin:12px 0;">
+                    <button class="btn" type="submit">Send to Coey</button>
+                </form>
+                {% if coey_response %}
+                <div
+                    style="margin-top:24px;padding:18px 20px;background:#fff3e6;border-radius:10px;border:1.5px solid #e60000;display:flex;align-items:flex-start;gap:16px;">
+                    <div
+                        style="flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:#e60000;border-radius:50%;color:#fff;font-weight:bold;font-size:1.3em;box-shadow:0 2px 8px rgba(230,0,0,0.08);">
+                        🤖</div>
+                    <div style="flex:1;">
+                        <div style="font-weight:600;color:#e60000;margin-bottom:6px;">Coey says:</div>
+                        <div style="color:#222;font-size:1.08em;white-space:pre-line;">{{ coey_response }}</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

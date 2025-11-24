@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register Domain</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>Register a Domain Name</h1>
+    <form method="POST" action="/register-domain">
+        <input type="text" name="domain" placeholder="Enter domain name" required>
+        <button type="submit">Search & Buy</button>
+    </form>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Backoffice Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 24px rgba(0, 31, 91, 0.08);
+            padding: 32px;
+            border: 2px solid #e60000;
+        }
+
+        h1 {
+            color: #e60000;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .upload-area {
+            border: 2px dashed #e60000;
+            padding: 24px;
+            text-align: center;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .upload-area input[type="file"] {
+            margin-top: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Backoffice Dashboard</h1>
+        <div class="section">
+            <h2>Upload Files</h2>
+            <div class="upload-area">
+                <form action="/backoffice/upload" method="post" enctype="multipart/form-data">
+                    <label for="file">Choose file to upload:</label><br>
+                    <input type="file" id="file" name="file"><br><br>
+                    <input type="submit" value="Upload">
+                </form>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Manage Content</h2>
+            <p>Coey can help you organize, edit, and place files wherever you want in your back office. Just specify the
+                location and type of content you need.</p>
+        </div>
+    </div>
+</body>
+
+</html>

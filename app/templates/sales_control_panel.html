@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Control Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+            padding: 40px 32px;
+        }
+
+        h1 {
+            color: #0033a0;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .msg {
+            color: #e60000;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .upload-area {
+            border: 2px dashed #0033a0;
+            padding: 24px;
+            text-align: center;
+            background: #f9f9f9;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            background: #0033a0;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #001f5b;
+        }
+
+        .file-list {
+            background: #f4f8fb;
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .file-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-list li {
+            margin-bottom: 10px;
+        }
+
+        .logout {
+            float: right;
+            margin-top: -32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/sales/logout" class="logout btn">Logout</a>
+        <h1>Sales Control Panel</h1>
+        <div class="msg">{{ msg }}</div>
+        <div><b>User:</b> {{ user }}</div>
+        <div class="upload-area">
+            <form action="/sales/control" method="post" enctype="multipart/form-data">
+                <label for="file">Upload your website file:</label><br>
+                <input type="file" id="file" name="file"><br><br>
+                <button class="btn" type="submit">Upload</button>
+            </form>
+        </div>
+        <div class="file-list">
+            <h2>Your Uploaded Files</h2>
+            {% if files and files|length > 0 %}
+            <ul>
+                {% for file in files %}
+                <li>
+                    <a href="/sales/uploads/{{ user }}/{{ file }}" target="_blank">{{ file }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No files uploaded yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

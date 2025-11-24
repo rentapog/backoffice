@@ -1,3 +1,31 @@
+        <h3>Domain Management</h3>
+        <form method="post" action="/admin/add_domain">
+            <input type="text" name="new_domain" placeholder="Add new domain" required>
+            <button type="submit">Add Domain</button>
+        </form>
+        <form method="get" action="/admin/dashboard">
+            <label for="selected_domain">Select Domain:</label>
+            <select name="selected_domain" id="selected_domain">
+                {% for domain in domains %}
+                <option value="{{ domain }}" {% if domain == selected_domain %}selected{% endif %}>{{ domain }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Switch</button>
+        </form>
+    <h3>Website Health Monitor</h3>
+    <form method="post" action="/admin/health_check">
+        <input type="text" name="url" placeholder="Enter site URL" required>
+        <button type="submit">Check Health</button>
+    </form>
+    {% if health_status %}
+        <p>Status: <strong>{{ health_status }}</strong></p>
+        {% if health_status != 'Online' %}
+            <form method="post" action="/admin/auto_recover">
+                <input type="hidden" name="url" value="{{ checked_url }}">
+                <button type="submit">Auto-Recover (Coey)</button>
+            </form>
+        {% endif %}
+    {% endif %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +35,19 @@
 </head>
 <body>
     <div class="dashboard-container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <h2>Welcome, {{ session['user'] }}</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <form method="get" action="{{ url_for('admin_logout') }}" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
         <h3>Claude AI Bot</h3>
         <form method="post" action="/claude">
             <textarea name="prompt" placeholder="Give Claude an order..." required></textarea><br>
@@ -21,6 +60,38 @@
         </div>
         {% endif %}
         <hr>
+        <h3>File Manager</h3>
+        <form method="post" action="/admin/upload" enctype="multipart/form-data">
+            <input type="file" name="file" multiple required>
+            <input type="hidden" name="domain" value="{{ selected_domain }}">
+            <button type="submit">Upload Files</button>
+        </form>
+        <h4>Your Files</h4>
+        <ul>
+            {% for file in files %}
+            <li>{{ file }}</li>
+            {% else %}
+            <li>No files uploaded yet.</li>
+            {% endfor %}
+        </ul>
+        <form method="post" action="/admin/deploy">
+            <input type="hidden" name="domain" value="{{ selected_domain }}">
+            <button type="submit">Deploy Files</button>
+        </form>
+
+        <form method="post" action="/admin/deploy_fly">
+            <button type="submit">Deploy to Fly.io</button>
+        </form>
+
+        <form method="post" action="/admin/update_dns">
+            <input type="text" name="domain" placeholder="Enter domain name" required>
+            <label for="registrar">Registrar:</label>
+            <select name="registrar" id="registrar">
+                <option value="namecheap">Namecheap</option>
+                <option value="opensrs">OpenSRS</option>
+            </select>
+            <button type="submit">Update DNS</button>
+        </form>
         <h3>Claude Code Generator</h3>
         <form method="post" action="/claude/generate">
             <textarea name="task" placeholder="Describe the app or website you want Claude to generate (e.g., 'Create a simple Flask todo app')" required></textarea><br>

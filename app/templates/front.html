@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .leaderboard-ticker-container {
+            overflow: hidden;
+            width: 100vw;
+            background: #f4f8fb;
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .leaderboard-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            color: #0033a0;
+            font-weight: bold;
+            padding: 2px 12px;
+            border-radius: 6px;
+            z-index: 2;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .leaderboard-ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker-scroll 40s linear infinite;
+            font-size: 1.15em;
+            align-items: center;
+            margin-left: 120px;
+        }
+
+        .leaderboard-ticker span {
+            display: inline-block;
+            margin: 0 32px;
+            color: #0033a0;
+            font-weight: bold;
+        }
+
+        @keyframes ticker-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .leaderboard-ticker span {
+                margin: 0 12px;
+                font-size: 0.98em;
+            }
+
+            .leaderboard-label {
+                left: 4px;
+                font-size: 0.95em;
+                padding: 2px 6px;
+            }
+
+            .leaderboard-ticker {
+                margin-left: 80px;
+            }
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Rent A Pog</title>
+    <!-- Google Fonts for modern look -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style for Google Maps autocomplete dropdown */
+        .pac-container {
+            z-index: 2000 !important;
+        }
+
+        .main-box {
+            background: #fff;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+            padding: 40px 32px;
+            border: 2px solid #e60000;
+            box-sizing: border-box;
+        }
+
+        .content-block,
+        .leaderboard,
+        .form-section {
+            word-break: break-word;
+        }
+
+        @media (max-width: 900px) {
+            .main-box {
+                margin: 24px 8px 0 8px;
+                padding: 24px 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-box {
+                padding: 10px 2vw;
+                border-radius: 8px;
+            }
+
+            h1,
+            h2,
+            h3 {
+                font-size: 1.2em !important;
+            }
+
+            .leaderboard,
+            .form-section {
+                padding: 10px 2vw;
+            }
+
+            .content-block {
+                padding: 0 2vw;
+            }
+
+            footer {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Leaderboard ticker at the very top -->
+    <div class="leaderboard-ticker-container"
+        style="position:fixed;top:0;left:0;width:100vw;z-index:1000;border-radius:0;border-left:0;border-right:0;box-shadow:0 2px 12px rgba(0,0,0,0.04);background:#f4f8fb;">
+        <div class="leaderboard-label" style="background:#fff;">Leaderboard</div>
+        <div class="leaderboard-ticker" id="leaderboard-ticker"></div>
+    </div>
+    <div style="height:56px;"></div> <!-- Spacer for fixed ticker -->
+    <div class="main-box">
+        <!-- Hero Section: Buy a House, Own Your Address Theme -->
+        <div style="display:flex;align-items:center;justify-content:center;flex-direction:column;margin-bottom:32px;">
+            <div style="margin-bottom:24px;">
+                <img src="{{ url_for('static', filename='Rent_A_Pog_logo.png') }}" alt="Rent A Pog Logo"
+                    style="width:220px;height:auto;max-width:100%;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+            </div>
+            <h1
+                style="text-align:center;font-size:2.5em;color:#0033a0;margin-bottom:8px;font-family:'Montserrat',sans-serif;">
+                Claim Your Digital Pog</h1>
+            <p style="text-align:center;font-size:1.25em;color:#333;max-width:650px;">Pick any Pog in the world—your
+                favorite collectible, a dream design, or a token that means something to you. When you join, you own
+                that
+                digital Pog on our platform. Invite others to become your renters, and watch your digital Pog fill up
+                with your referrals. Simple, fun, and totally unique—your Pog, your renters, your rewards!</p>
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80"
+                alt="Pog on Platform"
+                style="width:100%;max-width:700px;border-radius:18px;margin-top:18px;box-shadow:0 4px 24px rgba(0,51,160,0.10);">
+        </div>
+        <script>
+            // Unique, realistic name and package generator for the ticker
+            const firstNames = [
+                "Alex", "Jamie", "Priya", "Chris", "Maria", "Samir", "Jessica", "Tyler", "Olivia", "Marcus",
+                "Emily", "David", "Fatima", "Ben", "Sophia", "Leo", "Hannah", "Mateo", "Chloe", "Lucas",
+                "Ava", "Noah", "Mia", "Ethan", "Liam", "Zara", "Isabella", "Jack", "Layla", "Owen",
+                "Ella", "Mason", "Ruby", "Jacob", "Lily", "Elijah", "Grace", "Carter", "Sofia", "Logan"
+            ];
+            const lastNames = [
+                "Carter", "Lee", "Patel", "Johnson", "Gomez", "Khan", "Smith", "Nguyen", "Brown", "Silva",
+                "Chen", "Kim", "Zahra", "Thompson", "Rossi", "Dubois", "Müller", "Garcia", "Wilson", "Evans",
+                "Clark", "Turner", "Baker", "Walker", "Young", "King", "Scott", "Green", "Adams", "Hill",
+                "Lewis", "Moore", "Wright", "Bennett", "Cruz", "Reed", "Bailey", "Rivera", "Cooper", "Ward"
+            ];
+            const packages = [29, 49, 99, 149, 199, 249, 299, 349, 399, 449, 499];
+            const usedNames = new Set();
+            function getRandomName() {
+                let name;
+                let tries = 0;
+                do {
+                    const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+                    const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+                    name = `${first} ${last}`;
+                    tries++;
+                } while (usedNames.has(name) && tries < 100);
+                usedNames.add(name);
+                return name;
+            }
+            function getRandomPackage() {
+                return packages[Math.floor(Math.random() * packages.length)];
+            }
+            function generateTickerMessages(count) {
+                const messages = [];
+                for (let i = 0; i < count; i++) {
+                    const name = getRandomName();
+                    const pkg = getRandomPackage();
+                    messages.push(`${name} just bought the $${pkg} package`);
+                }
+                return messages;
+            }
+            function fillTicker() {
+                const ticker = document.getElementById('leaderboard-ticker');
+                ticker.innerHTML = '';
+                usedNames.clear();
+                // Estimate how many names are needed to fill the ticker and keep it looking real
+                const minNames = 20;
+                const maxNames = 40;
+                const nameCount = Math.floor(Math.random() * (maxNames - minNames + 1)) + minNames;
+                const messages = generateTickerMessages(nameCount);
+                for (const msg of messages) {
+                    const span = document.createElement('span');
+                    span.textContent = msg;
+                    ticker.appendChild(span);
+                }
+            }
+            fillTicker();
+            // Optionally, refresh the ticker with new names every few minutes for even more realism
+            setInterval(fillTicker, 180000); // every 3 minutes
+        </script>
+        <div class="content-block"
+            style="background:#f4f8fb;padding:18px 20px;border-radius:10px;border-left:4px solid #0033a0;margin:18px 0 28px 0;">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <h2 style="color:#0033a0;text-align:center;">Meet Coey, Your AI Guide</h2>
+                <p style="text-align:center;">Hi, I'm <b>Coey</b>! I'm here to answer your questions about Rent A Pog,
+                    our referral program, and how you can get started renting your own digital Pog. Ask me anything
+                    below!</p>
+                <div id="coey-faq" style="margin-top:18px;width:100%;max-width:500px;">
+                    <form id="coey-form" style="display:flex;flex-direction:column;gap:10px;">
+                        <input type="text" id="coey-question" placeholder="Type your question..."
+                            style="padding:8px;border-radius:4px;border:1px solid #bbb;">
+                        <button type="submit"
+                            style="background:#0033a0;color:#fff;padding:6px 16px;border:none;border-radius:4px;font-weight:bold;">Ask
+                            Coey</button>
+                    </form>
+                    <div id="coey-answer" style="margin-top:14px;color:#222;font-size:1.08em;"></div>
+                </div>
+            </div>
+            <script>
+                // Coey AI backend integration (force update)
+                document.getElementById('coey-form').addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const input = document.getElementById('coey-question').value.trim();
+                    const answerDiv = document.getElementById('coey-answer');
+                    if (!input) {
+                        answerDiv.textContent = "Please enter a question.";
+                        return;
+                    }
+                    answerDiv.textContent = "Thinking...";
+                    try {
+                        const resp = await fetch('/coey-ai', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ question: input })
+                        });
+                        if (!resp.ok) {
+                            answerDiv.textContent = 'Error: Could not reach AI backend.';
+                            return;
+                        }
+                        const data = await resp.json();
+                        answerDiv.textContent = data.answer || "No answer.";
+                    } catch (err) {
+                        answerDiv.textContent = 'Error: ' + err.message;
+                    }
+                });
+            </script>
+        </div>
+        <!-- About Section -->
+        <!-- Online Promotion Rule Section -->
+        <!-- Domain Naming Rule Section -->
+        <div class="content-block"
+            style="background: #fffbe8; padding: 16px 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0 28px 0;">
+            <h3 style="color: #0033a0;">Pog Naming Rules</h3>
+            <p>You can choose the name for your Pog when you rent a Pog. Every Pog name will be registered in the
+                system when you pay for it. When you promote your link, it will always be embedded with your affiliate
+                link,
+                so you never have to worry about missing out on a commission.</p>
+            <p><b>Referral Boost:</b> The platform helps you get your <b>first 3 referrals</b>! As a new member, you’ll
+                receive extra support and system-driven referrals to help you fill your digital Pog quickly. After
+                that, you keep every referral you make. This gives everyone a fair start and helps you see results
+                faster. Don't worry—Coey will remind you and show you how it works, so there are no surprises!</p>
+            <p><b>Don't worry if you don't know how to mask your Pog!</b> You'll be held by the hand by my mate Coey,
+                who will show you exactly how to do it. Masking isn't as scary as it sounds—I'm not coming to rob you or
+                anything! It's just a simple way to make sure your visitors see the right site. Coey, can you explain
+                masking in your friendly way?</p>
+            <div id="coey-masking-explanation" style="margin-top:8px; color:#0033a0; font-style:italic;"></div>
+            <script>
+                // Coey masking explanation logic
+                document.getElementById('coey-masking-explanation').innerText = "Masking just means your Pog points to Rent A Pog, so when people visit your link, they see the real site with your referral code. It's safe, easy, and I'll walk you through it if you need help!";
+            </script>
+        </div>
+        <div class="content-block">
+            <h2 style="color: #d9001f; font-size: 1.8em; margin-bottom: 20px;">About Rent A Pog</h2>
+            <p><strong>Rent A Pog provides a platform for individuals and businesses to rent digital Pogs, manage
+                    referrals, and grow their online presence efficiently.</strong></p>
+            <div
+                style="background: #fffbe8; padding: 14px 18px; border-radius: 8px; border-left: 4px solid #d9001f; margin: 16px 0 18px 0; font-size:1.08em; color:#333;">
+                <strong>What is a Pog?</strong> A <b>Pog</b> is a rented collectible on our platform. When you "rent a
+                Pog," you are subscribing to your own digital space within our platform, which includes a personalized
+                web page, dashboard, and referral tools. This is a unique term used by Rent A Pog to describe your
+                digital rental unit.
+            </div>
+            <div
+                style="background: #f4f8fb; padding: 18px 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0 28px 0; font-size:1.13em;">
+                <strong style="color: #0033a0;">Rent A Pog and get your own web page, dashboard, and referral link.
+                    Invite others to rent through you and you will be rewarded for your efforts. You can get started for
+                    as low as $20, and there are upgrade options available in your back office to unlock more features
+                    and earning potential. All results depend on your effort and participation—no specific income is
+                    guaranteed. Tools and support are provided to help you manage your Rent A Pog referrals.</strong>
+            </div>
+            <div
+                style="background: #e8f4fd; padding: 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 20px 0;">
+                <p><strong style="color: #d9001f;">Referral Management Tools</strong></p>
+                <p>Our system is designed to help you organize, track, and manage your referrals in a user-friendly
+                    environment. No cold calling or spamming required.</p>
+            </div>
+            <p>With Rent A Pog, you can access your dashboard, manage your account, and monitor your activity in one
+                place.</p>
+            <p>Whether you are new to online business or experienced, our platform is built to support your growth and
+                help you connect with your network.</p>
+            <p style="color: #d9001f; font-weight: bold;">Results may vary. Success depends on your own efforts and
+                engagement with the platform.</p>
+        </div>
+        <!-- Platform Details -->
+        <div class="content-block">
+            <h2 style="color: #0033a0; font-size: 1.8em; margin-bottom: 20px;">How It Works</h2>
+            <p><strong>After signing up, you will have access to your own dashboard and referral tools.</strong> The
+                platform provides resources to help you manage your online presence and track your progress.</p>
+            <div
+                style="background: #f0f8ff; padding: 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 20px 0;">
+                <p><strong style="color: #0033a0; font-size: 1.2em;">What You Get</strong></p>
+                <p>When you join, you receive a personalized page on RentaRiz.com, secure hosting, and access to our
+                    referral management system. Your subscription includes technical support and platform updates.</p>
+                <p><strong>Think of it as having a digital workspace</strong>—a place to manage your online activity and
+                    connect with your audience.</p>
+            </div>
+            <div
+                style="background: #f4f8fb; padding: 16px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0;">
+                <p style="color: #0033a0; font-weight: bold;">Referral Pass-Up System: Our referral program includes a
+                    pass-up feature—every second referral you generate is assigned to the platform admin. This supports
+                    the platform and ensures fair opportunity for all members.</p>
+            </div>
+            <p>Our platform is open to everyone. We do not guarantee specific results or earnings. Please use the tools
+                responsibly and in accordance with our terms and policies.</p>
+            <p
+                style="background: #e8f4fd; padding: 15px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 15px 0;">
+                <strong>Disclaimer:</strong> Rentariz does not guarantee income or business success. All earnings and
+                results are based on individual effort and market conditions.
+            </p>
+            <p>We encourage ethical networking and compliance with all applicable laws and platform guidelines.</p>
+        </div>
+        <!-- Tally Form Section -->
+        <div class="form-section" id="signup-form" style="margin:32px auto 0 auto; max-width:400px; text-align:center;">
+            <h1>Sign Up to Own Your Digital Pog</h1>
+            <p>Pick any Pog in the world and make it yours. Invite renters (your referrals) to join your Pog
+                and grow your rewards!</p>
+            <div class="zapier-form">
+                <p style="color: #333; font-size: 1.1em; margin-bottom: 20px;">
+                    <strong>Ready to claim your Pog? Fill out the form below:</strong>
+                </p>
+                <form action="https://hooks.zapier.com/hooks/catch/123456/abcde/" method="POST"
+                    style="margin: 30px 0; display: flex; flex-direction: column; align-items: center;"
+                    id="signup-main-form">
+                    <input type="email" name="email" placeholder="Enter your email" required
+                        style="padding:10px; border-radius:5px; border:1px solid #ccc; width: 100%; max-width: 300px; margin-bottom: 16px;">
+                    <button type="submit"
+                        style="padding:10px 20px; border-radius:5px; background:#0033a0; color:#fff; border:none; width: 100%; max-width: 200px;">Claim
+                        My Digital Pog</button>
+                </form>
+                <div style="margin-top:18px; font-size:0.98em; color:#555;">
+                    By signing up, you agree to our
+                    <a href="/terms-and-conditions" target="_blank"
+                        style="color:#0033a0; text-decoration:underline;">Terms and Conditions</a>
+                    and
+                    <a href="/privacy-policy" target="_blank" style="color:#0033a0; text-decoration:underline;">Privacy
+                        Policy</a>.
+                </div>
+                <div style="margin-top:18px; font-size:0.98em; color:#0033a0;">
+                    <b>Need help?</b> Ask Coey above or contact our 24/7 support team.
+                </div>
+                <p style="margin-top: 20px; color: #0033a0; font-size: 1.1em;">
+                    After submitting, you will receive further instructions by email.
+                </p>
+            </div>
+        </div>
+        <!-- Compensation Plan -->
+        <footer>
+            <p>&copy; 2025 Rent A Pog. All rights reserved.</p>
+        </footer>
+        <!-- Main content ends here -->
+    </div>
+    <!-- Leaderboard -->
+    <!-- Leaderboard removed from bottom -->
+
+
+</body>
+
+</html>

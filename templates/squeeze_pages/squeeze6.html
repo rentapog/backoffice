@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Your Digital Side Hustle | Rent a Riz</title>
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-box {
+            background: #fff;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+            padding: 40px 32px;
+            border: 2px solid #e60000;
+            box-sizing: border-box;
+        }
+
+        .content-block,
+        .leaderboard,
+        .form-section {
+            word-break: break-word;
+        }
+
+        @media (max-width: 900px) {
+            .main-box {
+                margin: 24px 8px 0 8px;
+                padding: 24px 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-box {
+                padding: 10px 2vw;
+                border-radius: 8px;
+            }
+
+            h1,
+            h2,
+            h3 {
+                font-size: 1.2em !important;
+            }
+
+            .leaderboard,
+            .form-section {
+                padding: 10px 2vw;
+            }
+
+            .content-block {
+                padding: 0 2vw;
+            }
+
+            footer {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-box">
+        <h1 style="text-align:center;">Ready to Launch Your Digital Side Hustle?</h1>
+        <div class="content-block"
+            style="background:#f4f8fb;padding:18px 20px;border-radius:10px;border-left:4px solid #0033a0;margin:18px 0 28px 0;">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <h2 style="color:#0033a0;text-align:center;">Meet Coey, Your AI Success Partner</h2>
+                <p style="text-align:center;">Hi, I'm <b>Coey</b>! I'm here to guide you through every step of building
+                    your online income with Rent a Riz. Ask me anything about referrals, rewards, or how to get started!
+                </p>
+                <div id="coey-faq" style="margin-top:18px;width:100%;max-width:500px;">
+                    <form id="coey-form" style="display:flex;flex-direction:column;gap:10px;">
+                        <input type="text" id="coey-question" placeholder="Type your question..."
+                            style="padding:8px;border-radius:4px;border:1px solid #bbb;">
+                        <button type="submit"
+                            style="background:#0033a0;color:#fff;padding:6px 16px;border:none;border-radius:4px;font-weight:bold;">Ask
+                            Coey</button>
+                    </form>
+                    <div id="coey-answer" style="margin-top:14px;color:#222;font-size:1.08em;"></div>
+                </div>
+            </div>
+            <script>
+                const coeyFaq = [
+                    { q: /how.*earn|make.*money/i, a: "You earn by sharing your unique Rent a Riz link. Every friend who joins through you helps you climb the leaderboard and unlock rewards!" },
+                    { q: /what.*is.*rent.?a.?riz|about/i, a: "Rent a Riz is your gateway to a digital business. You get a web page, dashboard, and a system that pays you for sharing." },
+                    { q: /support|help|contact/i, a: "You have 24/7 support! Reach out anytime via your dashboard or email." },
+                    { q: /pass.?up|admin/i, a: "Every second referral is passed up to the admin to keep the system fair. All others are yours!" },
+                    { q: /privacy/i, a: "Your privacy is protected. See our Privacy Policy for details." },
+                ];
+                let lastQuestion = "";
+                document.getElementById('coey-form').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const input = document.getElementById('coey-question').value.trim();
+                    const answerDiv = document.getElementById('coey-answer');
+                    if (!input) { answerDiv.textContent = "Please enter a question."; return; }
+                    if (input.toLowerCase() === lastQuestion.toLowerCase()) {
+                        answerDiv.textContent = "😊 I'm always happy to help! Ask anything else!";
+                        return;
+                    }
+                    lastQuestion = input;
+                    let found = false;
+                    for (const pair of coeyFaq) {
+                        if (pair.q.test(input)) {
+                            answerDiv.textContent = pair.a;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        answerDiv.textContent = "😊 Welcome! If you have questions, just ask and I'll help you out.";
+                    }
+                });
+            </script>
+        </div>
+        <div class="content-block"
+            style="background: #fffbe8; padding: 16px 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0 28px 0;">
+            <h3 style="color: #0033a0;">Why Choose Rent a Riz?</h3>
+            <ul>
+                <li>Get your own digital space and web page instantly</li>
+                <li>Track your referrals and earnings in a simple dashboard</li>
+                <li>Earn rewards for every friend you invite</li>
+                <li>Upgrade anytime to unlock more features</li>
+                <li>No tech skills needed—just your ambition!</li>
+            </ul>
+        </div>
+        <div class="content-block"
+            style="background: #e8f4fd; padding: 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 20px 0;">
+            <h3 style="color: #d9001f;">How It Works</h3>
+            <ol>
+                <li>Sign up with your email and get your own Rent a Riz page</li>
+                <li>Share your unique link with friends, family, or your network</li>
+                <li>Track your progress and earnings in your dashboard</li>
+                <li>Every second referral is passed up to the admin to keep things fair</li>
+                <li>Get paid for your efforts—no limits on your potential!</li>
+            </ol>
+        </div>
+        <div class="content-block"
+            style="background: #f4f8fb; padding: 18px 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0 28px 0;">
+            <h3 style="color: #0033a0;">Frequently Asked Questions</h3>
+            <ul>
+                <li><b>Is this legit?</b> Yes! Rent a Riz is a real platform with real rewards. Your success is our
+                    success.</li>
+                <li><b>Do I need experience?</b> Not at all. Anyone can join and start earning.</li>
+                <li><b>How do I get paid?</b> You’ll find payout options in your dashboard. It’s easy and secure.</li>
+                <li><b>Can I promote offline?</b> Absolutely! Use your custom domain for flyers, business cards, or word
+                    of mouth.</li>
+                <li><b>What if I need help?</b> Coey and our support team are always here for you.</li>
+            </ul>
+        </div>
+        <div class="form-section" id="signup-form" style="margin:32px auto 0 auto; max-width:400px; text-align:center;">
+            <h1>Sign Up for Rent a Riz</h1>
+            <p>Get access to your dashboard, referral tools, and platform resources.</p>
+            <form action="/signup" method="POST"
+                style="margin: 30px 0; display: flex; flex-direction: column; align-items: center;">
+                <input type="email" name="email" placeholder="Enter your email" required
+                    style="padding:10px; border-radius:5px; border:1px solid #ccc; width: 100%; max-width: 300px; margin-bottom: 16px;">
+                <button type="submit"
+                    style="padding:10px 20px; border-radius:5px; background:#0033a0; color:#fff; border:none; width: 100%; max-width: 200px;">Get
+                    Started</button>
+            </form>
+            <div style="margin-top:18px; font-size:0.98em; color:#555;">
+                By signing up, you agree to our
+                <a href="/terms-and-conditions" target="_blank" style="color:#0033a0; text-decoration:underline;">Terms
+                    and Conditions</a>
+                and
+                <a href="/privacy-policy" target="_blank" style="color:#0033a0; text-decoration:underline;">Privacy
+                    Policy</a>.
+            </div>
+            <div style="margin-top:18px; font-size:0.98em; color:#0033a0;">
+                <b>Need help?</b> Ask Coey above or contact our 24/7 support team.
+            </div>
+            <p style="margin-top: 20px; color: #0033a0; font-size: 1.1em;">
+                After submitting, you will receive further instructions by email.
+            </p>
+        </div>
+        <footer>
+            <p>&copy; 2025 Rentariz. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automate Your Earnings | Rent a Riz</title>
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-box {
+            background: #fff;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0, 31, 91, 0.10);
+            padding: 40px 32px;
+            border: 2px solid #0033a0;
+            box-sizing: border-box;
+        }
+
+        .content-block,
+        .leaderboard,
+        .form-section {
+            word-break: break-word;
+        }
+
+        @media (max-width: 900px) {
+            .main-box {
+                margin: 24px 8px 0 8px;
+                padding: 24px 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-box {
+                padding: 10px 2vw;
+                border-radius: 8px;
+            }
+
+            h1,
+            h2,
+            h3 {
+                font-size: 1.2em !important;
+            }
+
+            .leaderboard,
+            .form-section {
+                padding: 10px 2vw;
+            }
+
+            .content-block {
+                padding: 0 2vw;
+            }
+
+            footer {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-box">
+        <!-- Hero Section -->
+        <h1 style="text-align:center; color:#0033a0;">Let Your Website Work for You</h1>
+        <div class="content-block"
+            style="background:#fffbe8;padding:18px 20px;border-radius:10px;border-left:4px solid #d9001f;margin:18px 0 28px 0;">
+            <h2 style="color:#d9001f;text-align:center;">Automate Your Earnings</h2>
+            <p style="text-align:center;">With Rent a Riz, your digital space is always working—even when you’re not.
+                Set up your page, share your link, and let the system do the heavy lifting. Coey will help you optimize
+                every step!</p>
+        </div>
+        <!-- Coey FAQ -->
+        <div class="content-block"
+            style="background:#f4f8fb;padding:18px 20px;border-radius:10px;border-left:4px solid #0033a0;margin:18px 0 28px 0;">
+            <h2 style="color:#0033a0;">Coey: Your Automation Expert</h2>
+            <p>Ask Coey about automating your earnings, setting up your page, or maximizing your passive income. Coey is
+                always ready to help!</p>
+            <div id="coey-faq" style="margin-top:18px;width:100%;max-width:500px;">
+                <form id="coey-form" style="display:flex;flex-direction:column;gap:10px;">
+                    <input type="text" id="coey-question" placeholder="Type your question..."
+                        style="padding:8px;border-radius:4px;border:1px solid #bbb;">
+                    <button type="submit"
+                        style="background:#0033a0;color:#fff;padding:6px 16px;border:none;border-radius:4px;font-weight:bold;">Ask
+                        Coey</button>
+                </form>
+                <div id="coey-answer" style="margin-top:14px;color:#222;font-size:1.08em;"></div>
+            </div>
+            <script>
+                const coeyFaq = [
+                    { q: /automate|automation/i, a: "Rent a Riz automates your referral tracking and payouts. Set it up once, and let it run!" },
+                    { q: /passive.*income/i, a: "Share your link, and the system does the rest. The more you share, the more you can earn!" },
+                    { q: /support|help/i, a: "Coey and our support team are here 24/7. Just ask!" },
+                ];
+                let lastQuestion = "";
+                document.getElementById('coey-form').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const input = document.getElementById('coey-question').value.trim();
+                    const answerDiv = document.getElementById('coey-answer');
+                    if (!input) { answerDiv.textContent = "Please enter a question."; return; }
+                    if (input.toLowerCase() === lastQuestion.toLowerCase()) {
+                        answerDiv.textContent = "😊 I'm always happy to help! If you have more questions, just ask!";
+                        return;
+                    }
+                    lastQuestion = input;
+                    let found = false;
+                    for (const pair of coeyFaq) {
+                        if (pair.q.test(input)) {
+                            answerDiv.textContent = pair.a;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        answerDiv.textContent = "Welcome to Rent a Riz! Ask me anything about automation, passive income, or using your dashboard.";
+                    }
+                });
+            </script>
+        </div>
+        <!-- Domain Naming & Masking -->
+        <div class="content-block"
+            style="background: #e8f4fd; padding: 16px 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0 28px 0;">
+            <h3 style="color: #0033a0;">Your Domain, Your System</h3>
+            <p>Choose a domain that works for you. Every domain is registered to you, and your affiliate link is always
+                embedded—so you never miss a commission.</p>
+            <p><b>Pass-Up Rule:</b> Your second referral is passed up to the admin, but every other referral is yours.
+                This keeps the system fair and sustainable for everyone.</p>
+            <p><b>Not sure about domain masking?</b> Coey will show you how. It’s easy, safe, and ensures your visitors
+                always see your brand front and center.</p>
+            <div id="coey-masking-explanation" style="margin-top:8px; color:#0033a0; font-style:italic;"></div>
+            <script>
+                document.getElementById('coey-masking-explanation').innerText = "Masking means your domain points to Rent a Riz, so your visitors see your site with your referral code. It’s simple, and Coey is here to help!";
+            </script>
+        </div>
+        <!-- About Section -->
+        <div class="content-block">
+            <h2 style="color: #0033a0; font-size: 1.8em; margin-bottom: 20px;">About Rent a Riz</h2>
+            <p><strong>Rent a Riz is your platform for automated earnings. Rent a domain, manage referrals, and let the
+                    system work for you—all in one place.</strong></p>
+            <div
+                style="background: #fffbe8; padding: 14px 18px; border-radius: 8px; border-left: 4px solid #d9001f; margin: 16px 0 18px 0; font-size:1.08em; color:#333;">
+                <strong>What is a Riz?</strong> Your own digital rental unit—web page, dashboard, and referral tools
+                included.
+            </div>
+            <div
+                style="background: #f4f8fb; padding: 18px 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0 28px 0; font-size:1.13em;">
+                <strong style="color: #0033a0;">Start for as little as $20. Upgrade anytime to unlock more features and
+                    earning potential. Your results depend on your effort—no guarantees, just opportunity!</strong>
+            </div>
+            <div
+                style="background: #e8f4fd; padding: 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 20px 0;">
+                <p><strong style="color: #d9001f;">Referral Management Tools</strong></p>
+                <p>Track, organize, and manage your referrals with ease. No cold calling, no spam—just smart networking.
+                </p>
+            </div>
+            <p>Access your dashboard, manage your account, and monitor your growth—all in one place.</p>
+            <p>Whether you’re new to online business or a seasoned pro, Rent a Riz is built to help you succeed.</p>
+            <p style="color: #0033a0; font-weight: bold;">Results may vary. Your success is up to you!</p>
+        </div>
+        <!-- How It Works -->
+        <div class="content-block">
+            <h2 style="color: #d9001f; font-size: 1.8em; margin-bottom: 20px;">How It Works</h2>
+            <p><strong>Sign up, get your dashboard, and start sharing your link.</strong> The platform gives you all the
+                tools you need to manage your online presence and track your progress.</p>
+            <div
+                style="background: #f0f8ff; padding: 20px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 20px 0;">
+                <p><strong style="color: #0033a0; font-size: 1.2em;">What You Get</strong></p>
+                <p>Your own page on RentaRiz.com, secure hosting, and access to our referral management system.
+                    Technical support and updates included.</p>
+                <p><strong>Think of it as your digital HQ</strong>—manage your activity and connect with your audience.
+                </p>
+            </div>
+            <div
+                style="background: #f4f8fb; padding: 16px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 18px 0;">
+                <p style="color: #0033a0; font-weight: bold;">Referral Pass-Up System: Every second referral is assigned
+                    to the admin. This keeps the platform fair and sustainable for all.</p>
+            </div>
+            <p>Open to everyone. No guarantees—just the tools and support you need to succeed. Use the platform
+                responsibly and follow all rules.</p>
+            <p
+                style="background: #e8f4fd; padding: 15px; border-radius: 10px; border-left: 4px solid #0033a0; margin: 15px 0;">
+                <strong>Disclaimer:</strong> Rent a Riz does not guarantee income. Your results depend on your effort
+                and market conditions.
+            </p>
+            <p>We encourage ethical networking and compliance with all laws and guidelines.</p>
+        </div>
+        <!-- Signup Form -->
+        <div class="form-section" id="signup-form" style="margin:32px auto 0 auto; max-width:400px; text-align:center;">
+            <h1>Automate Your Earnings</h1>
+            <p>Get your dashboard, referral tools, and more.</p>
+            <div class="zapier-form">
+                <p style="color: #333; font-size: 1.1em; margin-bottom: 20px;">
+                    <strong>Ready to join? Fill out the form below:</strong>
+                </p>
+                <form action="https://hooks.zapier.com/hooks/catch/123456/abcde/" method="POST"
+                    style="margin: 30px 0; display: flex; flex-direction: column; align-items: center;">
+                    <input type="email" name="email" placeholder="Enter your email" required
+                        style="padding:10px; border-radius:5px; border:1px solid #ccc; width: 100%; max-width: 300px; margin-bottom: 16px;">
+                    <button type="submit"
+                        style="padding:10px 20px; border-radius:5px; background:#0033a0; color:#fff; border:none; width: 100%; max-width: 200px;">Get
+                        Started</button>
+                </form>
+                <div style="margin-top:18px; font-size:0.98em; color:#555;">
+                    By signing up, you agree to our
+                    <a href="/terms-and-conditions" target="_blank"
+                        style="color:#0033a0; text-decoration:underline;">Terms and Conditions</a>
+                    and
+                    <a href="/privacy-policy" target="_blank" style="color:#0033a0; text-decoration:underline;">Privacy
+                        Policy</a>.
+                </div>
+                <div style="margin-top:18px; font-size:0.98em; color:#0033a0;">
+                    <b>Need help?</b> Ask Coey above or contact our 24/7 support team.
+                </div>
+                <p style="margin-top: 20px; color: #0033a0; font-size: 1.1em;">
+                    After submitting, you’ll get next steps by email.
+                </p>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2025 Rentariz. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
